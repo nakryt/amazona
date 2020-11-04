@@ -11,6 +11,7 @@ export type Product = {
   rating: number;
   numReviews: number;
   description: string;
+  countInStock: number;
 };
 
 export type Data = {

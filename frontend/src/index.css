@@ -8,7 +8,6 @@ body {
   height: 100vh;
   font-size: 1.6rem;
   font-family: Helvetica, Arial, sans-serif;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -66,6 +65,40 @@ a:hover {
   color: #ff8000;
 }
 
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.1rem #a4a4a4 solid;
+  font-size: 1.6rem;
+  font-family: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+button:hover {
+  border: 0.1rem #404040 solid;
+}
+
+button.primary {
+  background-color: #f0c040;
+}
+
+button.block {
+  width: 100%;
+}
+
 /* Header */
 
 header a {
@@ -90,15 +123,38 @@ a.brand {
   justify-content: center;
 }
 
+.row.top {
+  align-items: flex-start;
+}
+
+.col-1 {
+  flex: 1 1 25rem;
+}
+
+.col-2 {
+  flex: 2 1 50rem;
+  display: flex;
+  justify-content: center;
+}
+
+.description {
+  padding-left: 2rem;
+}
+
 /* Image */
 
 img {
   border-radius: 0.5rem;
+  width: 100%;
+  height: auto;
 }
 
 img.medium {
   max-width: 29rem;
-  width: 100%;
+}
+
+img.large {
+  max-width: 40rem;
 }
 
 /* Card */
@@ -108,6 +164,15 @@ img.medium {
   background-color: #f8f8f8;
   border-radius: 0.5rem;
   margin: 1rem;
+}
+
+.card-product {
+  transition: all 0.05s ease-in;
+}
+
+.card-product:hover {
+  box-shadow: 1px 1px 4px 2px #aaa;
+  transform: translateY(-1px);
 }
 
 .card-body {
@@ -132,4 +197,14 @@ img.medium {
 .rating span:last-child {
   color: #404040;
   margin-left: 1rem;
+}
+
+/* Alert */
+
+.success {
+  color: #20a020;
+}
+
+.error {
+  color: #a02020;
 }
