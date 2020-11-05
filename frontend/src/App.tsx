@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getListProduct } from "./redux/product-reducer";
 
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import CardScreen from "./screens/CardScreen";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
+
   return (
     <div className="grid-container">
       <header className="row">
@@ -19,7 +27,8 @@ function App() {
         </div>
       </header>
       <main>
-        <Route path="/product/:id" exact component={ProductScreen} />
+        <Route path="/cart/:id" component={CardScreen} />
+        <Route path="/product/:id" component={ProductScreen} />
         <Route path="/" exact component={HomeScreen} />
       </main>
       <footer className="row center">All right reserved</footer>

@@ -1,4 +1,4 @@
-import { Data } from "../../types/types";
+import { Data } from "../types/types";
 
 const data: Data = {
   products: [

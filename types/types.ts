@@ -14,6 +14,8 @@ export type Product = {
   countInStock: number;
 };
 
+export type Products = Array<Product>;
+
 export type Data = {
-  products: Array<Product>;
+  products: Products;
 };

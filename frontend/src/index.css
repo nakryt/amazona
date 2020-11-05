@@ -1,3 +1,16 @@
+:root {
+  --main-color: #203040;
+  --gold-color: #f0c040;
+  --grey-color: #a4a4a4;
+  --dark-grey-color: #404040;
+  --success-color: #20a020;
+  --danger-color: #a02020;
+  --info-color: #2020a0;
+  --success-background-color: #a5fdac;
+  --info-background-color: #e0e0ff;
+  --danger-background-color: #fcd1d1;
+}
+
 html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
   box-sizing: border-box;
@@ -31,7 +44,7 @@ body {
 
 header {
   grid-area: header;
-  background-color: #203040;
+  background-color: var(--main-color);
 }
 
 main {
@@ -41,7 +54,7 @@ main {
 
 footer {
   grid-area: footer;
-  background-color: #203040;
+  background-color: var(--main-color);
   color: #ffffff;
 }
 
@@ -62,7 +75,7 @@ a {
 }
 
 a:hover {
-  color: #ff8000;
+  color: var(--gold-color);
 }
 
 ul {
@@ -74,25 +87,33 @@ ul {
 li {
   margin-top: 1rem;
 }
-
+input,
+select,
+textarea,
 button {
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 0.1rem #a4a4a4 solid;
+  border: 0.1rem var(--grey-color) solid;
   font-size: 1.6rem;
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
   background-color: #f8f8f8;
   cursor: pointer;
 }
 
+input:hover,
+select:hover,
+textarea:hover,
 button:hover {
-  border: 0.1rem #404040 solid;
+  border: 0.1rem var(--dark-grey-color) solid;
 }
 
 button.primary {
-  background-color: #f0c040;
+  background-color: var(--gold-color);
 }
 
 button.block {
@@ -171,12 +192,16 @@ img.large {
 }
 
 .card-product:hover {
-  box-shadow: 1px 1px 4px 2px #aaa;
+  box-shadow: 1px 1px 4px 2px var(--grey-color);
   transform: translateY(-1px);
 }
 
 .card-body {
   padding: 1rem;
+}
+
+.card-body a {
+  color: var(--main-color);
 }
 
 .card-body > * {
@@ -190,21 +215,55 @@ img.large {
 /* Rating */
 
 .rating span {
-  color: #f0c040;
+  color: var(--gold-color);
   margin: 0.1rem;
 }
 
 .rating span:last-child {
-  color: #404040;
+  color: var(--dark-grey-color);
   margin-left: 1rem;
 }
 
 /* Alert */
 
 .success {
-  color: #20a020;
+  color: var(--success-color);
 }
 
-.error {
-  color: #a02020;
+.danger {
+  color: var(--danger-color);
+}
+
+.alert {
+  padding: 1rem;
+  border: 0.1rem solid transparent;
+  border-radius: 0.5rem;
+}
+
+.alert-info {
+  color: var(--info-color);
+  background-color: var(--info-background-color);
+}
+
+.alert-success {
+  color: var(--success-color);
+  background-color: var(--success-background-color);
+}
+
+.alert-danger {
+  color: var(--danger-color);
+  background-color: var(--danger-background-color);
+}
+
+.loading {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 5rem;
+}
+
+.loading i {
+  margin-right: 2rem;
 }

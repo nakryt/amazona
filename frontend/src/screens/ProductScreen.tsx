@@ -1,18 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RouteComponentProps, NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  getProductDetail,
+  productDetailData,
+  productDetailError,
+  productDetailLoading,
+} from "../redux/product-reducer";
+
 import Rating from "../components/Rating";
-import data from "../data";
+import LoadingBox from "../components/ui/LoadingBox";
+import MessageBox from "../components/ui/MessageBox";
+import Select from "../components/ui/Select";
 
 type Props = {
   id: string;
 };
 
-const ProductScreen: React.FC<RouteComponentProps<Props>> = ({ match }) => {
-  const product = data.products.find((item) => item._id === match.params.id);
-  console.log(product);
+const ProductScreen: React.FC<RouteComponentProps<Props>> = ({
+  match,
+  history,
+}) => {
+  const dispatch = useDispatch();
+  const product = useSelector(productDetailData);
+  const loading = useSelector(productDetailLoading);
+  const error = useSelector(productDetailError);
+
+  const productId = match.params.id;
+  const [qty, setQty] = useState("1");
+
+  useEffect(() => {
+    dispatch(getProductDetail(productId));
+  }, [dispatch, productId]);
+
+  if (loading) {
+    return <LoadingBox />;
+  }
+  if (error) {
+    return <MessageBox variant="danger">{error}</MessageBox>;
+  }
   if (!product) {
     return <div>Product not found</div>;
   }
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${productId}?qty=${qty}`);
+  };
+
   const {
     image,
     name,
@@ -22,6 +57,7 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({ match }) => {
     description,
     countInStock,
   } = product;
+
   return (
     <div>
       <NavLink to="/">Back to result</NavLink>
@@ -52,7 +88,7 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({ match }) => {
               <li>
                 <div className="row">
                   <div>Price</div>
-                  <div className="price">{price}</div>
+                  <div className="price">${price * Number(qty)}</div>
                 </div>
               </li>
               <li>
@@ -62,14 +98,33 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({ match }) => {
                     {countInStock > 0 ? (
                       <span className="success">In Stock</span>
                     ) : (
-                      <span className="error">Unavailable</span>
+                      <span className="danger">Unavailable</span>
                     )}
                   </div>
                 </div>
               </li>
-              <li>
-                <button className="primary block">Add to Cart</button>
-              </li>
+              {product.countInStock > 0 && (
+                <>
+                  <li>
+                    <div className="row">
+                      <div>Qty</div>
+                      <Select
+                        numberOfRows={product.countInStock}
+                        value={qty}
+                        onChange={setQty}
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <button
+                      className="primary block"
+                      onClick={addToCartHandler}
+                    >
+                      Add to Cart
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Product as TProduct } from "../types/types";
+import { Product as TProduct } from "../../../types/types";
 import Rating from "./Rating";
 
 type Props = {
