@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import { Route, NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "./redux/product-reducer";
+
+import { cartItems as cartItemsSelector } from "./redux/cart-reducer";
 
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
-import CardScreen from "./screens/CardScreen";
+import CardScreen from "./screens/CartScreen";
 
 function App() {
   const dispatch = useDispatch();
+  const cartItems = useSelector(cartItemsSelector);
+
   useEffect(() => {
     dispatch(getListProduct());
   }, [dispatch]);
@@ -22,12 +26,17 @@ function App() {
           </NavLink>
         </div>
         <div>
-          <NavLink to="/cart">Cart</NavLink>
+          <NavLink to="/cart">
+            Cart
+            {cartItems.length > 0 && (
+              <span className="badge">{cartItems.length}</span>
+            )}
+          </NavLink>
           <NavLink to="/signin">Sign In</NavLink>
         </div>
       </header>
-      <main>
-        <Route path="/cart/:id" component={CardScreen} />
+      <main className="container">
+        <Route path="/cart/:id?" component={CardScreen} />
         <Route path="/product/:id" component={ProductScreen} />
         <Route path="/" exact component={HomeScreen} />
       </main>

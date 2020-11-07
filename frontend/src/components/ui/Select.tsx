@@ -3,14 +3,21 @@ import React from "react";
 type Props = {
   value: string;
   numberOfRows: number;
+  style?: object;
   onChange: (value: string) => void;
 };
 
-export default function Select({ value, numberOfRows, onChange }: Props) {
+export default function Select({
+  value,
+  numberOfRows,
+  onChange,
+  style,
+}: Props) {
   const count = [];
   for (let i = 1; i <= numberOfRows; i++) count.push(i);
   return (
     <select
+      style={style}
       value={value}
       onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
         onChange(e.target.value)

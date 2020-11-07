@@ -1,6 +1,21 @@
 import { Data } from "../types/types";
+import bcrypt from "bcryptjs";
 
 const data: Data = {
+  users: [
+    {
+      name: "nakryt",
+      password: bcrypt.hashSync("123456", 8),
+      email: "nakryt@yahoo.com",
+      isAdmin: true,
+    },
+    {
+      name: "Jack",
+      password: bcrypt.hashSync("qwerty", 8),
+      email: "jack@yahoo.com",
+      isAdmin: false,
+    },
+  ],
   products: [
     {
       _id: "1",
@@ -12,7 +27,7 @@ const data: Data = {
       rating: 2.9,
       numReviews: 10,
       description: "Hight quality product",
-      countInStock: 3,
+      countInStock: 10,
     },
     {
       _id: "2",
@@ -24,7 +39,7 @@ const data: Data = {
       rating: 4.0,
       numReviews: 10,
       description: "Hight quality product",
-      countInStock: 5,
+      countInStock: 7,
     },
     {
       _id: "3",
@@ -36,7 +51,7 @@ const data: Data = {
       rating: 4.8,
       numReviews: 17,
       description: "Hight quality product",
-      countInStock: 2,
+      countInStock: 5,
     },
     {
       _id: "4",
@@ -48,7 +63,7 @@ const data: Data = {
       rating: 3.5,
       numReviews: 14,
       description: "Hight quality product",
-      countInStock: 5,
+      countInStock: 3,
     },
     {
       _id: "5",
@@ -72,7 +87,7 @@ const data: Data = {
       rating: 4.5,
       numReviews: 15,
       description: "Hight quality product",
-      countInStock: 3,
+      countInStock: 4,
     },
   ],
 };

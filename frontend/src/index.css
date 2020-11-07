@@ -2,6 +2,7 @@
   --main-color: #203040;
   --gold-color: #f0c040;
   --grey-color: #a4a4a4;
+  --red-color: #f02020;
   --dark-grey-color: #404040;
   --success-color: #20a020;
   --danger-color: #a02020;
@@ -44,12 +45,19 @@ body {
 
 header {
   grid-area: header;
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: var(--main-color);
 }
 
 main {
   grid-area: main;
   padding: 1rem;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
 }
 
 footer {
@@ -105,11 +113,20 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 input:hover,
 select:hover,
 textarea:hover,
 button:hover {
   border: 0.1rem var(--dark-grey-color) solid;
+}
+
+button:disabled {
+  border: none;
+  cursor: not-allowed;
 }
 
 button.primary {
@@ -131,6 +148,15 @@ a.brand {
   color: #ffffff;
   font-size: 3rem;
   font-weight: bold;
+}
+
+.badge {
+  background-color: var(--red-color);
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.2rem 0.7rem;
+  font-size: 1.4rem;
+  margin-left: 0.2rem;
 }
 
 .row {
@@ -158,6 +184,10 @@ a.brand {
   justify-content: center;
 }
 
+.min-30 {
+  min-width: 30rem;
+}
+
 .description {
   padding-left: 2rem;
 }
@@ -168,6 +198,10 @@ img {
   border-radius: 0.5rem;
   width: 100%;
   height: auto;
+}
+
+img.small {
+  max-width: 5rem;
 }
 
 img.medium {
@@ -265,5 +299,13 @@ img.large {
 }
 
 .loading i {
+  margin-right: 2rem;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
+.mr-2 {
   margin-right: 2rem;
 }
