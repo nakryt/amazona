@@ -1,8 +1,12 @@
-export type User = {
+import { Document } from "mongoose";
+
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
-};
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type Users = Array<User>;
+export type Users = IUser[];

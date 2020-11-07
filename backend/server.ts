@@ -2,29 +2,20 @@ import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 import config from "./config";
-import data from "./data";
 
 import userRouters from "./routers/userRouter";
+import productRouters from "./routers/productRouter";
+
+import Product from "./models/ProductModel";
+
 const app = express();
 // const PORT = process.env.PORT || 5000;
 const PORT = config.port || 5000;
 
+app.use("/api/products", productRouters);
 app.use("/api/users", userRouters);
 app.get("/", (req, res) => {
   res.send("Server is ready!");
-});
-
-app.get("/api/products", (req, res) => {
-  res.send(data.products);
-});
-
-app.get("/api/products/:id", (req, res) => {
-  const product = data.products.find((item) => item._id === req.params.id);
-  if (product) {
-    res.send(product);
-  } else {
-    res.status(404).send({ message: "Product not found!" });
-  }
 });
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

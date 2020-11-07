@@ -1,11 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { Product as TProduct } from "../../../types/product";
+import { IProduct } from "../../../types/product";
 import Rating from "./Rating";
 
 type Props = {
-  product: TProduct;
+  product: IProduct;
 };
 
 export default function Product({ product }: Props) {

@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "./store";
 
-import { Products, Product } from "../../../types/product";
+import { Products, IProduct } from "../../../types/product";
 import productAPI from "../api/product-api";
 
 interface ProductState {
   data: Products;
   error: string;
   loading: boolean;
-  productDetail: { data: Product | null; loading: boolean; error: string };
+  productDetail: { data: IProduct | null; loading: boolean; error: string };
 }
 
 const initialState: ProductState = {
@@ -41,7 +41,7 @@ export const productSlice = createSlice({
       state.productDetail.loading = true;
       state.productDetail.error = "";
     },
-    productDetailSuccess: (state, { payload }: PayloadAction<Product>) => {
+    productDetailSuccess: (state, { payload }: PayloadAction<IProduct>) => {
       state.productDetail.data = payload;
       state.productDetail.loading = false;
     },

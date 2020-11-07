@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "./store";
 
 import { CartItem } from "../../../types/types";
-import { Product } from "../../../types/product";
+import { IProduct } from "../../../types/product";
 import productAPI from "../api/product-api";
 
 interface CartState {
@@ -45,7 +45,7 @@ export const addCartItem = (productId: string, qty: number): AppThunk => async (
   dispatch,
   getState
 ) => {
-  const data: Product = await productAPI.getProductDetail(productId);
+  const data: IProduct = await productAPI.getProductDetail(productId);
   const { name, image, price, countInStock, _id } = data;
   dispatch(
     addItem({

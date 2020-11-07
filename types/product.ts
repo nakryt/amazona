@@ -1,8 +1,9 @@
+import { Document } from "mongoose";
+
 export type Category = "Shirts" | "Pants";
 export type Brand = "Nike" | "Adidas" | "Lacoste" | "Puma";
 
-export type Product = {
-  _id: string;
+export interface IProduct extends Document {
   name: string;
   category: Category;
   image: string;
@@ -12,6 +13,8 @@ export type Product = {
   numReviews: number;
   description: string;
   countInStock: number;
-};
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export type Products = Array<Product>;
+export type Products = IProduct[];
