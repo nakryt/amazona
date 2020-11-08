@@ -8,6 +8,7 @@ import { cartItems as cartItemsSelector } from "./redux/cart-reducer";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CardScreen from "./screens/CartScreen";
+import SignInScreen from "./screens/SignInScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
       <main className="container">
         <Route path="/cart/:id?" component={CardScreen} />
         <Route path="/product/:id" component={ProductScreen} />
+        <Route path="/signin" component={SignInScreen} />
         <Route path="/" exact component={HomeScreen} />
       </main>
       <footer className="row center">All right reserved</footer>

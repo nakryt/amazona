@@ -246,6 +246,24 @@ img.large {
   font-size: 2rem;
 }
 
+/* Form */
+
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.form > div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.form label {
+  display: block;
+  margin: 1rem 0;
+}
+
 /* Rating */
 
 .rating span {
