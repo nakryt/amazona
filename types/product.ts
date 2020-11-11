@@ -13,8 +13,6 @@ export interface IProduct extends Document {
   numReviews: number;
   description: string;
   countInStock: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export type Products = IProduct[];

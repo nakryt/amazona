@@ -5,8 +5,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   isAdmin: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  token: string;
+  _id: string;
 }
 
 export type Users = IUser[];

@@ -3,6 +3,7 @@
   --gold-color: #f0c040;
   --grey-color: #a4a4a4;
   --red-color: #f02020;
+  --orange-color: #f08000;
   --dark-grey-color: #404040;
   --success-color: #20a020;
   --danger-color: #a02020;
@@ -12,9 +13,14 @@
   --danger-background-color: #fcd1d1;
 }
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 62.5%; /* 16px x 62.5 = 10px = 1rem */
-  box-sizing: border-box;
 }
 
 body {
@@ -111,6 +117,7 @@ button {
 button {
   background-color: #f8f8f8;
   cursor: pointer;
+  min-height: 40px;
 }
 
 button:disabled {
@@ -182,6 +189,10 @@ a.brand {
   flex: 2 1 50rem;
   display: flex;
   justify-content: center;
+}
+
+.col-2 > ul {
+  width: 100%;
 }
 
 .min-30 {
@@ -260,7 +271,6 @@ img.large {
 }
 
 .form label {
-  display: block;
   margin: 1rem 0;
 }
 
@@ -316,14 +326,65 @@ img.large {
   font-size: 5rem;
 }
 
-.loading i {
-  margin-right: 2rem;
-}
-
 .mr-1 {
   margin-right: 1rem;
 }
 
 .mr-2 {
   margin-right: 2rem;
+}
+
+/* Dropdown */
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  margin: 0;
+  margin-top: 0.4rem;
+  border-radius: 0.5rem;
+  background-color: var(--main-color);
+  z-index: 1;
+  transition: all 0.3s ease-in;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Cart */
+
+.cart-select {
+  min-width: 60px;
+}
+
+.cart-price {
+  min-width: 50px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.flex-basis-50 {
+  flex-basis: 50px;
+}
+
+/* Checkout Steps */
+
+.checkout-steps > div {
+  flex: 1;
+  padding: 1rem;
+  color: var(--grey-color);
+  border-top: 0.3rem var(--grey-color) solid;
+  font-weight: bold;
+}
+
+.checkout-steps > div.active {
+  border-top-color: var(--orange-color);
+  color: var(--orange-color);
 }

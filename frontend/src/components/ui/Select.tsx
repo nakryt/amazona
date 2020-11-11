@@ -4,6 +4,7 @@ type Props = {
   value: string;
   numberOfRows: number;
   style?: object;
+  className?: string;
   onChange: (value: string) => void;
 };
 
@@ -12,11 +13,13 @@ export default function Select({
   numberOfRows,
   onChange,
   style,
+  className,
 }: Props) {
   const count = [];
   for (let i = 1; i <= numberOfRows; i++) count.push(i);
   return (
     <select
+      className={className}
       style={style}
       value={value}
       onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>

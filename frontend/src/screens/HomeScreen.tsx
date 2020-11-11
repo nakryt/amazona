@@ -8,7 +8,7 @@ import {
 } from "../redux/product-reducer";
 
 import Product from "../components/Product";
-import LoadingBox from "../components/ui/LoadingBox";
+import LoadingBox from "../components/ui/LoadingBox/LoadingBox";
 import MessageBox from "../components/ui/MessageBox";
 
 export default function HomeScreen() {

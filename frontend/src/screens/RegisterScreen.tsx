@@ -3,15 +3,19 @@ import { NavLink, Redirect, RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  signIn,
+  register,
   userInfo,
+  fail,
   loading as loadingSelector,
   error as errorSelector,
 } from "../redux/user-reducer";
 import LoadingBox from "../components/ui/LoadingBox/LoadingBox";
 import MessageBox from "../components/ui/MessageBox";
 
-const SignInScreen: React.FC<RouteComponentProps> = ({ location, history }) => {
+const RegisterScreen: React.FC<RouteComponentProps> = ({
+  location,
+  history,
+}) => {
   const dispatch = useDispatch();
   const user = useSelector(userInfo);
   const loading = useSelector(loadingSelector);
@@ -22,20 +26,26 @@ const SignInScreen: React.FC<RouteComponentProps> = ({ location, history }) => {
     if (user) history.push(redirect);
   }, [user, redirect, history]);
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   if (user) return <Redirect to="/" />;
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(signIn(email, password));
+    if (password !== confirmPassword) {
+      dispatch(fail("Password and Confirm password are not match"));
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
 
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
-        <h1>Sign In</h1>
+        <h1>Create Account</h1>
         {loading ? (
           <LoadingBox style={{ fontSize: "2rem", flexDirection: "row" }} />
         ) : error ? (
@@ -43,6 +53,19 @@ const SignInScreen: React.FC<RouteComponentProps> = ({ location, history }) => {
             {error}
           </MessageBox>
         ) : null}
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            required
+            value={name}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+          />
+        </div>
         <div>
           <label htmlFor="email">Email address</label>
           <input
@@ -70,18 +93,29 @@ const SignInScreen: React.FC<RouteComponentProps> = ({ location, history }) => {
           />
         </div>
         <div>
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm password"
+            required
+            value={confirmPassword}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setConfirmPassword(e.target.value)
+            }
+          />
+        </div>
+        <div>
           <label />
           <button className="primary" type="submit" disabled={loading}>
-            Sign In
+            Register
           </button>
         </div>
         <div>
           <label />
           <div>
-            New customer?{" "}
-            <NavLink to={`/register?redirect=${redirect}`}>
-              Create new account
-            </NavLink>
+            Already have an account?{" "}
+            <NavLink to={`/signin?redirect=${redirect}`}>Sign-In</NavLink>
           </div>
         </div>
       </form>
@@ -89,4 +123,4 @@ const SignInScreen: React.FC<RouteComponentProps> = ({ location, history }) => {
   );
 };
 
-export default SignInScreen;
+export default RegisterScreen;

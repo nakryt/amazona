@@ -1,17 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "./store";
 
-import { CartItem } from "../../../types/types";
+import { CartItem, ShippingAddress, PaymentMethod } from "../../../types/types";
 import { IProduct } from "../../../types/product";
 import productAPI from "../api/product-api";
 
 interface CartState {
   cartItems: Array<CartItem>;
+  shippingAddress: ShippingAddress;
+  paymentMethod: PaymentMethod;
+  loading: boolean;
 }
 
-const localItems = localStorage.getItem("cartItems");
+const localStorageCart = localStorage.getItem("cartItems");
+const localShippingAddress = localStorage.getItem("shippingAddress");
+const initialShippingAddress = {
+  fullName: "",
+  address: "",
+  city: "",
+  postalCode: "",
+  country: "",
+};
 const initialState: CartState = {
-  cartItems: localItems ? JSON.parse(localItems) : [],
+  cartItems: localStorageCart ? JSON.parse(localStorageCart) : [],
+  shippingAddress: localShippingAddress
+    ? JSON.parse(localShippingAddress)
+    : initialShippingAddress,
+  paymentMethod: "PayPal",
+  loading: false,
 };
 
 export const cartSlice = createSlice({
@@ -35,16 +51,44 @@ export const cartSlice = createSlice({
         (item) => item.product !== payload
       );
     },
+    clearCart: (state) => {
+      state.cartItems = [];
+    },
+    clearShippingAddress: (state) => {
+      state.shippingAddress = initialShippingAddress;
+    },
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.loading = payload;
+    },
+    saveShippingAddressAction: (
+      state,
+      { payload }: PayloadAction<ShippingAddress>
+    ) => {
+      state.shippingAddress = payload;
+    },
+    setPaymentMethod: (state, { payload }: PayloadAction<PaymentMethod>) => {
+      state.paymentMethod = payload;
+    },
+    // TODO: success cart action
     success: (state, { payload }: PayloadAction) => {},
   },
 });
 
-export const { addItem, deleteItem } = cartSlice.actions;
+export const {
+  addItem,
+  deleteItem,
+  clearCart,
+  clearShippingAddress,
+  setLoading,
+  saveShippingAddressAction,
+  setPaymentMethod,
+} = cartSlice.actions;
 
 export const addCartItem = (productId: string, qty: number): AppThunk => async (
   dispatch,
   getState
 ) => {
+  dispatch(setLoading(true));
   const data: IProduct = await productAPI.getProductDetail(productId);
   const { name, image, price, countInStock, _id } = data;
   dispatch(
@@ -57,6 +101,7 @@ export const addCartItem = (productId: string, qty: number): AppThunk => async (
       qty,
     })
   );
+  dispatch(setLoading(false));
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
@@ -68,22 +113,21 @@ export const deleteCartItem = (productId: string): AppThunk => async (
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
-// export const getProductDetail = (productId: string): AppThunk => async (
-//   dispatch
-// ) => {
-//   dispatch(productDetailRequest());
-//   try {
-//     const data = await productAPI.getProductDetail(productId);
-//     dispatch(productDetailSuccess(data));
-//   } catch (err) {
-//     if (err.response && err.response.data.message) {
-//       dispatch(productDetailFail(err.response.data.message));
-//     } else {
-//       dispatch(productDetailFail(err.message));
-//     }
-//   }
-// };
+export const saveShippingAddress = (data: ShippingAddress): AppThunk => async (
+  dispatch
+) => {
+  dispatch(saveShippingAddressAction(data));
+  localStorage.setItem("shippingAddress", JSON.stringify(data));
+};
+export const savePaymentMethod = (method: PaymentMethod): AppThunk => (
+  dispatch
+) => {
+  dispatch(setPaymentMethod(method));
+};
 
 export const cartItems = (state: RootState) => state.cart.cartItems;
+export const shippingAddress = (state: RootState) => state.cart.shippingAddress;
+export const paymentMethod = (state: RootState) => state.cart.paymentMethod;
+export const loading = (state: RootState) => state.cart.loading;
 
 export default cartSlice.reducer;

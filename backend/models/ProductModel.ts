@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { IProduct } from "../../types/product";
+import { CreateAndUpdate } from "../../types/types";
 
 const productSchema = new mongoose.Schema(
   {
@@ -16,4 +17,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<IProduct>("product", productSchema);
+export default mongoose.model<IProduct & CreateAndUpdate>(
+  "product",
+  productSchema
+);

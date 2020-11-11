@@ -8,6 +8,7 @@ import {
   addCartItem,
   deleteCartItem,
   cartItems as cartItemsSelector,
+  loading as loadingSelector,
 } from "../redux/cart-reducer";
 
 type Props = {
@@ -23,7 +24,9 @@ const CartScreen: React.FC<RouteComponentProps<Props>> = ({
   const productId = match.params.id;
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
   const cartItems = useSelector(cartItemsSelector);
+  const loading = useSelector(loadingSelector);
 
+  // TODO: Loading
   useEffect(() => {
     if (productId) dispatch(addCartItem(productId, qty));
   }, [productId, qty, dispatch]);
@@ -36,6 +39,7 @@ const CartScreen: React.FC<RouteComponentProps<Props>> = ({
   const checkoutHandler = () => {
     history.push("/signin?redirect=shipping");
   };
+
   return (
     <div className="top">
       <h1>Shopping Cart</h1>
@@ -67,18 +71,19 @@ const CartScreen: React.FC<RouteComponentProps<Props>> = ({
                         <NavLink to={`/product/${product}`}>{name}</NavLink>
                       </div>
                       <Select
-                        style={{ width: 60 }}
+                        className="cart-select"
                         value={String(qty)}
                         numberOfRows={countInStock}
                         onChange={(value: string) =>
                           dispatch(addCartItem(product, Number(value)))
                         }
                       />
-                      <div>${price}</div>
+                      <div className="cart-price flex-basis-50">${price}</div>
                       <div>
                         <button
                           type="button"
                           onClick={() => removeFromCartHandler(product)}
+                          disabled={loading}
                         >
                           Delete
                         </button>

@@ -8,9 +8,10 @@ import {
   productDetailError,
   productDetailLoading,
 } from "../redux/product-reducer";
+import { loading as loadingCartSelector } from "../redux/cart-reducer";
 
 import Rating from "../components/Rating";
-import LoadingBox from "../components/ui/LoadingBox";
+import LoadingBox from "../components/ui/LoadingBox/LoadingBox";
 import MessageBox from "../components/ui/MessageBox";
 import Select from "../components/ui/Select";
 
@@ -24,17 +25,19 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({
 }) => {
   const dispatch = useDispatch();
   const product = useSelector(productDetailData);
-  const loading = useSelector(productDetailLoading);
+  const loadingDetailProduct = useSelector(productDetailLoading);
   const error = useSelector(productDetailError);
+  const loadingCart = useSelector(loadingCartSelector);
 
   const productId = match.params.id;
   const [qty, setQty] = useState("1");
 
+  // TODO: Loading product
   useEffect(() => {
     dispatch(getProductDetail(productId));
   }, [dispatch, productId]);
 
-  if (loading) {
+  if (loadingDetailProduct) {
     return <LoadingBox />;
   }
   if (error) {
@@ -119,6 +122,7 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({
                     <button
                       className="primary block"
                       onClick={addToCartHandler}
+                      disabled={loadingCart}
                     >
                       Add to Cart
                     </button>
