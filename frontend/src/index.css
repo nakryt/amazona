@@ -74,6 +74,15 @@ footer {
 
 /* Common */
 
+.dflex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
   font-size: 1.8rem;
   padding: 1rem 0;
@@ -251,6 +260,11 @@ img.large {
 
 .card-body > * {
   margin-bottom: 0.5rem;
+}
+
+.card-body h2 {
+  margin-top: 0;
+  padding: 0;
 }
 
 .price {

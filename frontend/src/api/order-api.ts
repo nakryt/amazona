@@ -1,7 +1,5 @@
 import Axios from "axios";
 
-// import { OrderData } from "../redux/order-reducer";
-
 // TODO: change type of order
 const orderRequest = async (order: any, token: string) => {
   return (
@@ -13,8 +11,19 @@ const orderRequest = async (order: any, token: string) => {
   ).data;
 };
 
-const cartAPI = {
-  orderRequest,
+const getOrderDetail = async (id: string, token: string) => {
+  return (
+    await Axios.get(`/api/orders/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  ).data;
 };
 
-export default cartAPI;
+const orderAPI = {
+  orderRequest,
+  getOrderDetail,
+};
+
+export default orderAPI;

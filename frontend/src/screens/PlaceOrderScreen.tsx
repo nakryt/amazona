@@ -79,6 +79,8 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
                   <strong>Name: </strong>
                   {fullName}
                   <br />
+                </p>
+                <p>
                   <strong>Address: </strong>
                   {address}, {city}, {postalCode}, {country}{" "}
                 </p>
