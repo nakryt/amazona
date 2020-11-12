@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -10,10 +10,8 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import {
   createOrder,
-  ordersSelector,
   loadingSelector,
   errorSelector,
-  successSelector,
   reset,
 } from "../redux/order-reducer";
 import LoadingBox from "../components/ui/LoadingBox/LoadingBox";
@@ -54,17 +52,9 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
       dispatch(reset());
     }
   };
-  const orders = useSelector(ordersSelector);
-  const orderSuccess = useSelector(successSelector);
+
   const orderLoading = useSelector(loadingSelector);
   const orderError = useSelector(errorSelector);
-
-  // useEffect(() => {
-  // if (orderSuccess && order._id) {
-  // history.push(`/order/${order._id}`);
-  // dispatch(reset());
-  // }
-  // }, [history, orderSuccess, dispatch, order._id]);
 
   return (
     <div>

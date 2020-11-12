@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { isAuth } from "./../utils";
 import expressAsyncHandler from "express-async-handler";
 import express from "express";
@@ -35,6 +36,22 @@ orderRouter.post(
       res
         .status(201)
         .send({ message: "New order created", order: createdOrder });
+    }
+  })
+);
+
+orderRouter.get(
+  "/mine",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    if (req.user?._id) {
+      const userId = mongoose.Types.ObjectId.createFromHexString(req.user?._id);
+      // @ts-ignore
+      const orders = await Order.find({ user: userId });
+
+      if (orders) {
+        res.send(orders);
+      }
     }
   })
 );

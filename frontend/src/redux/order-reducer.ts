@@ -48,10 +48,16 @@ export const orderSlice = createSlice({
       state.loading = true;
       state.success = false;
     },
-    success: (state, { payload }: PayloadAction<Order>) => {
-      state.data = [payload, ...state.data];
+    success: (state, { payload }: PayloadAction<Order | Order[]>) => {
+      if (payload instanceof Array) {
+        state.data = payload;
+      } else {
+        state.data = [payload, ...state.data];
+      }
+
       state.loading = false;
       state.success = true;
+      state.error = "";
     },
     fail: (state, { payload }: PayloadAction<string>) => {
       state.loading = false;
@@ -105,6 +111,21 @@ export const orderDetail = (id: string): AppThunk => async (
     const token = getState().user.data?.token || "";
     const order = await orderAPI.getOrderDetail(id, token);
     dispatch(setSelectedOrder(order));
+  } catch (err) {
+    const message =
+      err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    dispatch(fail(message));
+  }
+};
+
+export const getOrders = (): AppThunk => async (dispatch, getState) => {
+  const token = getState().user.data?.token || "";
+  dispatch(request());
+  try {
+    const data = await orderAPI.getOrders(token);
+    dispatch(success(data));
   } catch (err) {
     const message =
       err.response && err.response.data.message

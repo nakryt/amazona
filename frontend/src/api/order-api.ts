@@ -11,6 +11,16 @@ const orderRequest = async (order: any, token: string) => {
   ).data;
 };
 
+const getOrders = async (token: string) => {
+  return (
+    await Axios.get(`/api/orders/mine`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  ).data;
+};
+
 const getOrderDetail = async (id: string, token: string) => {
   return (
     await Axios.get(`/api/orders/${id}`, {
@@ -23,6 +33,7 @@ const getOrderDetail = async (id: string, token: string) => {
 
 const orderAPI = {
   orderRequest,
+  getOrders,
   getOrderDetail,
 };
 

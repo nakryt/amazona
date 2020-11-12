@@ -16,6 +16,7 @@ import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/Orders/OrderDetailScreen";
+import OrderHistory from "./screens/Orders/OrderHistory";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,9 +53,16 @@ function App() {
                 <i className="fa fa-caret-down"></i>
               </NavLink>
               <div className="dropdown-content">
-                <NavLink to="#signout" onClick={signOutHandler}>
-                  Sign Out
-                </NavLink>
+                <ul>
+                  <li>
+                    <NavLink to="/orderhistory">Order History</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="#signout" onClick={signOutHandler}>
+                      Sign Out
+                    </NavLink>
+                  </li>
+                </ul>
               </div>
             </div>
           ) : (
@@ -71,6 +79,7 @@ function App() {
         <Route path="/payment" component={PaymentMethodScreen} />
         <Route path="/placeorder" component={PlaceOrderScreen} />
         <Route path="/order/:id" component={OrderScreen} />
+        <Route path="/orderhistory" component={OrderHistory} />
         <Route path="/" exact component={HomeScreen} />
       </main>
       <footer className="row center">All right reserved</footer>
