@@ -1,3 +1,4 @@
+import { Schema } from "mongoose";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "./store";
 
@@ -71,9 +72,9 @@ export const getListProduct = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const getProductDetail = (productId: string): AppThunk => async (
-  dispatch
-) => {
+export const getProductDetail = (
+  productId: Schema.Types.ObjectId | string
+): AppThunk => async (dispatch) => {
   dispatch(productDetailRequest());
   try {
     const data = await productAPI.getProductDetail(productId);

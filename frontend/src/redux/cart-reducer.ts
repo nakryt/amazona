@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "./store";
 
-import { CartItem, ShippingAddress, PaymentMethod } from "../../../types/types";
+import {
+  CartItem,
+  ShippingAddress,
+  PaymentMethod,
+} from "../../../types/product";
 import { IProduct } from "../../../types/product";
 import productAPI from "../api/product-api";
+import { Schema } from "mongoose";
 
 interface CartState {
   cartItems: Array<CartItem>;
@@ -14,7 +19,7 @@ interface CartState {
 
 const localStorageCart = localStorage.getItem("cartItems");
 const localShippingAddress = localStorage.getItem("shippingAddress");
-const initialShippingAddress = {
+export const initialShippingAddress = {
   fullName: "",
   address: "",
   city: "",
@@ -46,12 +51,12 @@ export const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, payload];
       }
     },
-    deleteItem: (state, { payload }: PayloadAction<string>) => {
+    deleteItem: (state, { payload }: PayloadAction<Schema.Types.ObjectId>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.product !== payload
       );
     },
-    clearCart: (state) => {
+    clearCartAC: (state) => {
       state.cartItems = [];
     },
     clearShippingAddress: (state) => {
@@ -77,17 +82,17 @@ export const cartSlice = createSlice({
 export const {
   addItem,
   deleteItem,
-  clearCart,
+  clearCartAC,
   clearShippingAddress,
   setLoading,
   saveShippingAddressAction,
   setPaymentMethod,
 } = cartSlice.actions;
 
-export const addCartItem = (productId: string, qty: number): AppThunk => async (
-  dispatch,
-  getState
-) => {
+export const addCartItem = (
+  productId: Schema.Types.ObjectId | string,
+  qty: number
+): AppThunk => async (dispatch, getState) => {
   dispatch(setLoading(true));
   const data: IProduct = await productAPI.getProductDetail(productId);
   const { name, image, price, countInStock, _id } = data;
@@ -105,12 +110,16 @@ export const addCartItem = (productId: string, qty: number): AppThunk => async (
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
 
-export const deleteCartItem = (productId: string): AppThunk => async (
-  dispatch,
-  getState
-) => {
+export const deleteCartItem = (
+  productId: Schema.Types.ObjectId
+): AppThunk => async (dispatch, getState) => {
   dispatch(deleteItem(productId));
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+export const clearCart = (): AppThunk => (dispatch) => {
+  dispatch(clearCartAC());
+  localStorage.removeItem("cartItems");
 };
 
 export const saveShippingAddress = (data: ShippingAddress): AppThunk => async (
@@ -119,12 +128,14 @@ export const saveShippingAddress = (data: ShippingAddress): AppThunk => async (
   dispatch(saveShippingAddressAction(data));
   localStorage.setItem("shippingAddress", JSON.stringify(data));
 };
+
 export const savePaymentMethod = (method: PaymentMethod): AppThunk => (
   dispatch
 ) => {
   dispatch(setPaymentMethod(method));
 };
 
+export const cart = (state: RootState) => state.cart;
 export const cartItems = (state: RootState) => state.cart.cartItems;
 export const shippingAddress = (state: RootState) => state.cart.shippingAddress;
 export const paymentMethod = (state: RootState) => state.cart.paymentMethod;

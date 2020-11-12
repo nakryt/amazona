@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IProduct } from "../../types/product";
-import { CreateAndUpdate } from "../../types/types";
+import { CreateAndUpdate } from "../../types/product";
 
 const productSchema = new mongoose.Schema(
   {

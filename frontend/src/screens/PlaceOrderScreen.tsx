@@ -1,15 +1,26 @@
-import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import React, { FC, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   shippingAddress,
   paymentMethod as paymentMethodSelector,
-  cartItems as cartItemsSelector,
+  cart as cartSelector,
 } from "../redux/cart-reducer";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { NavLink, RouteComponentProps } from "react-router-dom";
+import {
+  createOrder,
+  ordersSelector,
+  loadingSelector,
+  errorSelector,
+  successSelector,
+  reset,
+} from "../redux/order-reducer";
+import LoadingBox from "../components/ui/LoadingBox/LoadingBox";
+import MessageBox from "../components/ui/MessageBox";
 
 const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
+  const dispatch = useDispatch();
   const paymentMethod = useSelector(paymentMethodSelector);
   if (!paymentMethod) {
     history.push("/payment");
@@ -17,7 +28,8 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
   const { fullName, address, city, country, postalCode } = useSelector(
     shippingAddress
   );
-  const cartItems = useSelector(cartItemsSelector);
+  const cart = useSelector(cartSelector);
+  const { cartItems } = cart;
   const toPrice = (num: number) => Number(num.toFixed(2));
 
   const itemsPrice = toPrice(
@@ -27,9 +39,32 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
   const taxPrice = toPrice(0.15 * itemsPrice);
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
-  const placeOrderHandler = () => {
-    // TODO: dispatch place order action
+  const placeOrderHandler = async () => {
+    const response = await dispatch(
+      createOrder({
+        ...cart,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+      })
+    );
+    if (response) {
+      history.push(`/order/${response}`);
+      dispatch(reset());
+    }
   };
+  const orders = useSelector(ordersSelector);
+  const orderSuccess = useSelector(successSelector);
+  const orderLoading = useSelector(loadingSelector);
+  const orderError = useSelector(errorSelector);
+
+  // useEffect(() => {
+  // if (orderSuccess && order._id) {
+  // history.push(`/order/${order._id}`);
+  // dispatch(reset());
+  // }
+  // }, [history, orderSuccess, dispatch, order._id]);
 
   return (
     <div>
@@ -63,7 +98,7 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
                 <h2>Order Items</h2>
                 <ul style={{ width: "100%" }}>
                   {cartItems.map(({ product, image, name, qty, price }) => (
-                    <li key={product}>
+                    <li key={String(product)}>
                       <div className="row">
                         <div>
                           <img src={image} alt={name} className="small" />
@@ -124,10 +159,15 @@ const PlaceOrderScreen: FC<RouteComponentProps> = ({ history }) => {
                   className="primary block"
                   disabled={cartItems.length === 0}
                   onClick={placeOrderHandler}
+                  style={{ marginBottom: 20 }}
                 >
                   Place Order
                 </button>
               </li>
+              {orderLoading && <LoadingBox />}
+              {orderError && (
+                <MessageBox variant="danger">{orderError}</MessageBox>
+              )}
             </ul>
           </div>
         </div>

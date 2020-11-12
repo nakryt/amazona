@@ -1,3 +1,4 @@
+import { IUser } from "./../types/user";
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
@@ -5,6 +6,15 @@ import config from "./config";
 import userRouters from "./routers/userRouter";
 import productRouters from "./routers/productRouter";
 import dotenv from "dotenv";
+import orderRouter from "./routers/orderRouter";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
 
 dotenv.config();
 const app = express();
@@ -16,6 +26,7 @@ const mongodbUrl = process.env.MONGODB_URL || config.mongodbUrl;
 
 app.use("/api/products", productRouters);
 app.use("/api/users", userRouters);
+app.use("/api/orders", orderRouter);
 app.get("/", (req, res) => {
   res.send("Server is ready!");
 });

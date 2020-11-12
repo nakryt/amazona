@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { ShippingAddress } from "../../../types/types";
+import { ShippingAddress } from "../../../types/product";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 import {

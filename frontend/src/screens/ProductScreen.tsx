@@ -34,10 +34,11 @@ const ProductScreen: React.FC<RouteComponentProps<Props>> = ({
 
   // TODO: Loading product
   useEffect(() => {
-    dispatch(getProductDetail(productId));
-  }, [dispatch, productId]);
+    if (!product || product?._id !== productId)
+      dispatch(getProductDetail(productId));
+  }, [dispatch, productId, product]);
 
-  if (loadingDetailProduct) {
+  if (productId !== product?._id || loadingDetailProduct) {
     return <LoadingBox />;
   }
   if (error) {

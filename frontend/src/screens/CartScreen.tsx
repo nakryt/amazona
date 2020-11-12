@@ -1,3 +1,4 @@
+import { Schema } from "mongoose";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, RouteComponentProps } from "react-router-dom";
@@ -31,7 +32,7 @@ const CartScreen: React.FC<RouteComponentProps<Props>> = ({
     if (productId) dispatch(addCartItem(productId, qty));
   }, [productId, qty, dispatch]);
 
-  const removeFromCartHandler = (id: string) => {
+  const removeFromCartHandler = (id: Schema.Types.ObjectId) => {
     dispatch(deleteCartItem(id));
     history.push("/cart");
   };
@@ -62,7 +63,7 @@ const CartScreen: React.FC<RouteComponentProps<Props>> = ({
             <ul style={{ width: "100%" }}>
               {cartItems.map(
                 ({ product, image, name, qty, countInStock, price }) => (
-                  <li key={product}>
+                  <li key={String(product)}>
                     <div className="row">
                       <div>
                         <img src={image} alt={name} className="small" />

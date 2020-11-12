@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IUser } from "../../types/user";
-import { CreateAndUpdate } from "../../types/types";
+import { CreateAndUpdate } from "../../types/product";
 
 const userSchema = new mongoose.Schema(
   {

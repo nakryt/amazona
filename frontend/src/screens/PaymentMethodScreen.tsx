@@ -7,7 +7,7 @@ import {
   savePaymentMethod,
   shippingAddress as shippingAddressSelector,
 } from "../redux/cart-reducer";
-import { PaymentMethod } from "../../../types/types";
+import { PaymentMethod } from "../../../types/product";
 
 const PaymentMethodScreen: FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
