@@ -22,7 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || config.port || 5000;
-const mongodbUrl = process.env.MONGODB_URL || config.mongodbUrl;
+// const mongodbUrl = process.env.MONGODB_URL || config.mongodbUrl;
+const mongodbUrl = process.env.MONGODB_URL || "mongodb://localhost/amazona";
 
 app.use("/api/products", productRouters);
 app.use("/api/users", userRouters);

@@ -87,6 +87,22 @@ export const register = (
   }
 };
 
+export const getUserDetails = (id: string): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  dispatch(request());
+  const user = getState().user.data;
+  try {
+    if (user) {
+      const data = await userAPI.getUserDetail(user._id, user.token);
+      // dispatch();
+    }
+  } catch (err) {
+    dispatch(fail(err.message));
+  }
+};
+
 export const userInfo = (state: RootState) => state.user.data;
 export const error = (state: RootState) => state.user.error;
 export const loading = (state: RootState) => state.user.loading;

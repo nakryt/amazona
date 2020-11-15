@@ -9,9 +9,20 @@ const register = async (name: string, email: string, password: string) => {
     .data;
 };
 
+const getUserDetail = async (userId: string, token: string) => {
+  return (
+    await Axios.get(`/api/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  ).data;
+};
+
 const userAPI = {
   signIn,
   register,
+  getUserDetail,
 };
 
 export default userAPI;
